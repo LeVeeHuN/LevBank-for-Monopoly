@@ -65,8 +65,8 @@ class savegame:
         for transaction in self.tranzakciok: transactions.append(transaction.getTransaction())
         return transactions
 
-
-    def save(self):
+#       JAVÍTANI BUG !!!!!!!!!!!!!!!
+    def save(self) -> None:
         with open(self._mentesiUtvonal, "r", encoding="utf-8") as mentes:
             saveStr = ""
             saveStr += str(self.numberOfPlayers) + "\n"
@@ -74,5 +74,9 @@ class savegame:
                 saveStr += str(jatekos.nev) + "||" + str(jatekos.penz) + "\n"
             for tranzakcio in self.tranzakciok:
                 tmp = tranzakcio.getTransaction()
-                saveStr += str(tmp[0]+"||"+tmp[1]+"||"+tmp[2]+"||"+tmp[3]+"\n")
+                saveStr += str(tmp[0]) + "||" + str(tmp[1]) + "||" + str(tmp[2]) + "||" + str(tmp[3]) + "\n"
             mentes.write(saveStr)
+    
+
+    def addTransaction(self, mode, kitol, kinek, osszeg) -> None:
+        self.tranzakciok.append(tr.transaction(mode, kitol, kinek, osszeg))

@@ -48,7 +48,7 @@ class savegame:
             self._adathalmaz.pop(0)
     
 
-    def printAllTransaction(self) -> None:
+    def printAllTransactions(self) -> None:
         self._str = ""
         for transaction in self.tranzakciok:
             if transaction.mode == "u":
@@ -60,10 +60,19 @@ class savegame:
         print(self._str)
 
 
-    def getAllTransaction(self) -> list:
-        pass
+    def getAllTransactions(self) -> list:
+        transactions = list()
+        for transaction in self.tranzakciok: transactions.append(transaction.getTransaction())
+        return transactions
 
 
     def save(self):
-        with open(self._mentesiUtvonal) as mentes:
-            pass
+        with open(self._mentesiUtvonal, "r", encoding="utf-8") as mentes:
+            saveStr = ""
+            saveStr += str(self.numberOfPlayers) + "\n"
+            for jatekos in self.jatekosok:
+                saveStr += str(jatekos.nev) + "||" + str(jatekos.penz) + "\n"
+            for tranzakcio in self.tranzakciok:
+                tmp = tranzakcio.getTransaction()
+                saveStr += str(tmp[0]+"||"+tmp[1]+"||"+tmp[2]+"||"+tmp[3]+"\n")
+            mentes.write(saveStr)
